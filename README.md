@@ -1,15 +1,46 @@
-## genui-codelab
+﻿## genui-codelab
 
 ### Intro to GenUI with Flutter — DevFest 2026 Codelab
 
-A ready-to-use development environment for the [Intro to GenUI](https://codelabs.developers.google.com/codelabs/genui-intro#0) codelab. Opens directly in GitHub Codespaces — no local Flutter installation required.
+A ready-to-use development environment and complete codebase for the [Intro to GenUI](https://codelabs.developers.google.com/codelabs/genui-intro#0) codelab. Opens directly in GitHub Codespaces — no local Flutter installation required.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Kymoraa/genui-codelab)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Amondi014/genui-codelab)
 
 ---
 #### What you'll build
 
 An AI-powered task management app using Flutter and the GenUI SDK. A Firebase AI Logic agent handles natural language input and generates real Flutter UI components at runtime — no hardcoded layouts.
+
+> 📖 **Full Codelab Walkthrough:** See [CODELAB_WALKTHROUGH.md](CODELAB_WALKTHROUGH.md) for a detailed, step-by-step technical guide covering GenUI architecture, A2UI protocol, schema definitions, and custom component implementation.
+
+---
+#### Repository Structure
+
+```
+├── .devcontainer/         # GitHub Codespaces & Docker devcontainer config
+├── .gemini/               # Gemini configuration
+├── .vscode/               # VS Code launch & debug settings
+├── android/               # Android platform bundle
+├── ios/                   # iOS platform bundle
+├── lib/                   # Flutter application source (completed Step 7)
+│   ├── firebase_options.dart  # Firebase platform configuration
+│   ├── main.dart              # Core app: GenUI SurfaceController, transport & chat
+│   ├── message_bubble.dart    # Chat bubble UI widget
+│   └── task_display.dart      # Custom GenUI CatalogItem & action dispatcher
+├── linux/                 # Linux platform bundle
+├── macos/                 # macOS platform bundle
+├── steps/                 # Milestone snapshots from each codelab step
+│   ├── step_03/           # Step 3: Firebase initialization
+│   ├── step_04/           # Step 4: Conversational chat UI
+│   ├── step_05/           # Step 5: GenUI Surface integration
+│   ├── step_06/           # Step 6: AI-driven surface generation
+│   └── step_07/           # Step 7: Custom TaskDisplay component & actions
+├── web/                   # Web platform bundle
+├── windows/               # Windows platform bundle
+├── CODELAB_WALKTHROUGH.md # In-depth technical breakdown and guide
+├── pubspec.yaml           # Flutter package manifest and dependencies
+└── README.md              # Project documentation
+```
 
 ---
 #### Before you start
@@ -31,17 +62,19 @@ You'll need:
 
 1. Click **Open in GitHub Codespaces** above and sign in with your GitHub account
 2. Codespaces will build the container and set up Flutter, Dart, and the Firebase CLI — this takes about 2 minutes on first launch
-3. When the workspace opens, open the terminal and follow the codelab from **Step 2: Create the Flutter project**
-4. Run the app with:
+3. When the workspace opens, open the terminal and run the app with:
 
-`flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html` This command will avoid a known Flutter CanvasKit console error in Codespaces. Otherwise you can also run: `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0` 
+```bash
+flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html
+```
+> This command avoids a known Flutter CanvasKit console error in Codespaces. Otherwise you can also run: `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0`
 
-5. Go to the Ports tab → right-click port 8080 → set Port Visibility to Public → open the URL via the globe icon.
-6. The first load in debug mode takes 1–3 minutes while Flutter compiles — the page will appear blank. This is normal. Wait, then refresh if needed.
+4. Go to the **Ports** tab → right-click port 8080 → set **Port Visibility** to **Public** → open the URL via the globe icon.
+5. The first load in debug mode takes 1–3 minutes while Flutter compiles — the page will appear blank. This is normal. Wait, then refresh if needed.
 
 Hot reload and hot restart are available in the terminal:
-- r — hot reload (preserves state)
-- R — hot restart (clears state)
+- `r` — hot reload (preserves state)
+- `R` — hot restart (clears state)
 
 The environment includes:
 - Flutter >= 3.35.7 (stable)
@@ -53,27 +86,35 @@ The environment includes:
 #### Firebase CLI
 
 If firebase is not found, install it manually:
-`curl -sL https://firebase.tools | bash`
+```bash
+curl -sL https://firebase.tools | bash
+```
 
-Firebase authentication in Codespaces
+**Firebase authentication in Codespaces**
 
 Codespaces is a headless environment, so the standard firebase login flow won't work. Use the CI token flow instead:
 
 1. Generate a token:
+```bash
 firebase login:ci --no-localhost
+```
 2. Open the URL it prints in your local browser and sign in with your Google account
 3. Copy the authorization code shown on screen and paste it back into the Codespaces terminal
-4. Firebase will print a long token — export it and save it to ~/.bashrc so it persists across sessions:
-`export FIREBASE_TOKEN=<paste-token-here>`
-`echo 'export FIREBASE_TOKEN=<paste-token-here>' >> ~/.bashrc`
-`echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.bashrc`
+4. Firebase will print a long token — export it and save it to `~/.bashrc` so it persists across sessions:
+```bash
+export FIREBASE_TOKEN=<paste-token-here>
+echo 'export FIREBASE_TOKEN=<paste-token-here>' >> ~/.bashrc
+echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' >> ~/.bashrc
+```
 
 ---
 #### FlutterFire CLI
 
 When the codelab asks you to run `dart pub global activate flutterfire_cli`, the flutterfire command won't be found immediately. Run this first:
 
-`export PATH="$PATH":"$HOME/.pub-cache/bin"`
+```bash
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+```
 
 ---
 #### App Check
@@ -106,24 +147,30 @@ When you reconnect:
 
 1. Re-load environment variables: `source ~/.bashrc` 
 Otherwise re-export manually:
-`export FIREBASE_TOKEN=<your-token>`
-`export PATH="$PATH":"$HOME/.pub-cache/bin"`
+```bash
+export FIREBASE_TOKEN=<your-token>
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+```
 2. Set port 8080 back to Public in the Ports tab
 3. Restart the app: `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html` or `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0`
 
-Again, Expect the 1-3 minute wait time as the Codespace loads
+Again, Expect the 1-3 minute wait time as the Codespace loads.
 
 ---
 #### Running locally
 
 If you have the Flutter SDK installed and prefer to work locally:
 
-Requirements
-- Flutter >= 3.35.7 (run flutter upgrade if needed)
+**Requirements:**
+- Flutter >= 3.35.7 (run `flutter upgrade` if needed)
 - Dart >= 3.9 (ships with Flutter 3.35)
-- Firebase CLI — install with npm install -g firebase-tools
+- Firebase CLI — install with `npm install -g firebase-tools`
 
-Then follow the codelab from Step 1.
+Then follow the steps in [CODELAB_WALKTHROUGH.md](CODELAB_WALKTHROUGH.md) or run:
+```bash
+flutter pub get
+flutter run -d chrome
+```
 
 ---
 #### Known issues
